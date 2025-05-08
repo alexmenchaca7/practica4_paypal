@@ -19,6 +19,8 @@ export class CarritoComponent implements OnInit, AfterViewInit {
   private paypalButtonRendered = false;
   carrito: Producto[] = [];
   recibo: string = ''; // Variable para almacenar el recibo
+  compraExitosa: boolean = false;
+  transactionId: string = '';
 
   constructor(private carritoService: CarritoService, private router: Router) {}
 
@@ -131,11 +133,18 @@ export class CarritoComponent implements OnInit, AfterViewInit {
         onApprove: async (data: any, actions: any) => { // Tipado añadido
           try {
             const details = await actions.order.capture();
-            this.carritoService.limpiarCarrito();
-            this.carrito = [];
-            this.router.navigate(['/exito'], {
-              state: { detallesPago: details }
-            });
+            this.compraExitosa = true;
+            this.transactionId = details.id;
+
+            // Limpia el carrito después de 3 segundos
+            setTimeout(() => {
+              this.carritoService.limpiarCarrito();
+              this.carrito = [];
+              this.router.navigate(['/exito'], {
+                  state: { detallesPago: details }
+              });
+            }, 5000); // 5 segundos de visualización
+            
           } catch (err: any) { // Tipado añadido
             console.error('Error capturando el pago:', err);
             alert('Error al procesar el pago');

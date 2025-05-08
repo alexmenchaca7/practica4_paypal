@@ -10,6 +10,18 @@
         <h2>Carrito de compras</h2>
     </div>
 
+    <div *ngIf="compraExitosa" class="confirmacion-compra">
+        <div class="confirmacion-contenido">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>¡Compra realizada con éxito!</h3>
+            <p>Tu pago de ${{ calcularTotal() }} MXN ha sido procesado.</p>
+            <p>ID de transacción: {{ transactionId }}</p>
+            <button class="confirmacion-boton" (click)="irAProductos()">
+                Volver a la tienda
+            </button>
+        </div>
+    </div>
+
     <div class="carrito-contenido" *ngIf="carrito.length > 0">
         <ul class="carrito-lista">
             <li class="carrito-item" *ngFor="let producto of carrito; let i = index">
