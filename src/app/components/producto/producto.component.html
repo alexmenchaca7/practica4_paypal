@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<!-- Contenedor para el mensaje de éxito -->
+<div *ngIf="mensajeExito" class="mensaje-exito">
+  Producto agregado al carrito con éxito!
+</div>
+
+<!-- Contenedor para el mensaje de error -->
+<div *ngIf="mensajeError" class="mensaje-error">
+  {{ mensajeError }}
+</div>
+
+<main class="contenedor-productos">
+  <h2 class="titulo-centrado">Catálogo de Gorras</h2>
+  
+  <div class="productos">
+    <div *ngFor="let producto of productos" class="producto">
+      <img [src]="producto.imagen" alt="{{producto.nombre}}">
+      <h3>{{producto.nombre}}</h3>
+      <p>Precio: ${{producto.precio}} MXN</p>
+      <p *ngIf="producto.cantidad === 0" class="producto-agotado">Producto agotado</p>
+      <button (click)="agregarAlCarrito(producto)" [disabled]="producto.cantidad === 0">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Añadir
+      </button>
+    </div>
+  </div>
+</main>
